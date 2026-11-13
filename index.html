@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Moje cviky</title>
-<meta name="theme-color" content="#fbf7f2">
+<meta name="theme-color" content="#faf6f0">
 <meta name="color-scheme" content="light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Moje cviky">
@@ -12,65 +12,47 @@
 <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-:root{
-  --bg:#fbf7f2; --card:#ffffff; --text:#2b2a27; --muted:#6f6b63; --line:#ece6dc; --warn:#9a5b10;
-}
-/* barvy sekcí: c = sytá barva, t = světlý podklad, d = tmavý text na podkladu */
-.k-coral {--c:#e0603a;--t:#fde6dc;--d:#7a2a12}
-.k-teal  {--c:#1a9e80;--t:#d9f3ea;--d:#0b4f40}
-.k-amber {--c:#e8960c;--t:#fdefcf;--d:#6e4300}
-.k-purple{--c:#7b62d9;--t:#e9e4fd;--d:#36277c}
-.k-pink  {--c:#d64f86;--t:#fde1ec;--d:#76193f}
-.k-red   {--c:#e0434a;--t:#fde0e1;--d:#7c1519}
-.k-blue  {--c:#2f80d1;--t:#dcebfb;--d:#0d3d6e}
-.k-green {--c:#4f9a24;--t:#e4f3d6;--d:#264d0c}
-.k-indigo{--c:#4a5bd1;--t:#e1e5fb;--d:#1f2a73}
-.k-cyan  {--c:#0f97ad;--t:#d6f1f6;--d:#064a56}
-.k-yellow{--c:#c99a00;--t:#fbf3c4;--d:#5c4600}
-.k-brown {--c:#a5643a;--t:#f5e6db;--d:#55301a}
-.k-lime  {--c:#6f9e0f;--t:#eef6d2;--d:#384f05}
 *{box-sizing:border-box}
-html,body{margin:0;color-scheme:light;background:var(--bg);color:var(--text);
+html,body{margin:0;background:#faf6f0;color:#2b3d5b;color-scheme:light;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
 .wrap{max-width:560px;margin:0 auto;
-  padding:calc(16px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(32px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))}
-h1{font-size:28px;font-weight:700;margin:8px 0 4px}
-.sub{color:var(--muted);font-size:15px;margin:0 0 20px}
+  padding:calc(18px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(32px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))}
+h1{font-size:30px;font-weight:700;margin:6px 0 4px;letter-spacing:-.3px;color:#2b3d5b}
+.head h1{color:#fff}
+.sub{color:#8a7f70;font-size:15px;margin:0 0 22px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.tile{background:var(--t);border:none;border-radius:18px;padding:16px;text-align:left;color:var(--d);
-  font:inherit;cursor:pointer;min-height:118px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;
-  border-bottom:5px solid var(--c)}
+.tile{position:relative;overflow:hidden;border:none;border-radius:22px;padding:16px;text-align:left;
+  background:var(--c);font:inherit;cursor:pointer;min-height:132px;display:flex;flex-direction:column;justify-content:space-between}
 .tile:active{transform:scale(.97)}
-.tile .ico{font-size:30px;line-height:1}
-.tile .name{font-size:16px;font-weight:700}
-.tile .count{font-size:13px;opacity:.85}
-.tile.fav{grid-column:1 / -1;min-height:auto;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px}
-.head{background:var(--t);color:var(--d);border-radius:18px;padding:14px 16px 16px;margin-bottom:16px}
-.head h1{margin:2px 0 4px;font-size:24px}
-.head p{margin:0;font-size:15px;opacity:.9}
-.back{background:none;border:none;color:var(--d);font:inherit;font-size:16px;font-weight:600;padding:4px 0;cursor:pointer}
-.ex{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:14px;
-  padding:14px 16px;margin-bottom:10px;position:relative}
-.ex h3{margin:0 0 4px;font-size:17px;font-weight:700;padding-right:44px}
-.ex p{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
-.ex .tag{display:inline-block;font-size:12px;font-weight:600;background:var(--t);color:var(--d);border-radius:999px;padding:2px 10px;margin-bottom:6px}
-.heart{position:absolute;top:8px;right:8px;width:40px;height:40px;border:none;background:none;cursor:pointer;
-  font-size:24px;line-height:1;color:var(--muted)}
-.heart.on{color:#e0434a}
-.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.play{border:none;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:var(--c);color:#fff;text-decoration:none;
-  padding:10px 14px;border-radius:10px;font-size:15px;font-weight:700}
-.none{font-size:13px;color:var(--warn);align-self:center}
-.yt{font-size:14px;color:var(--c);text-decoration:none;font-weight:600;padding:10px 4px}
-.empty{background:var(--t);color:var(--d);border-radius:14px;padding:16px;font-size:15px;line-height:1.5}
-.open{display:inline-flex;align-items:center;gap:6px;background:var(--t);color:var(--d);text-decoration:none;
-  padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600}
-.player{margin-top:12px;border-radius:12px;overflow:hidden;background:#000}
+.tile::after{content:"";position:absolute;right:-28px;bottom:-28px;width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.12)}
+.tile .ic{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center}
+.tile .ic svg{width:28px;height:28px}
+.tile .name{font-size:16px;font-weight:700;line-height:1.25;position:relative;z-index:1}
+.tile .count{font-size:13px;opacity:.85;position:relative;z-index:1}
+.tile.fav{grid-column:1/-1;min-height:auto;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px}
+.head{background:var(--c);color:#fff;border-bottom:4px solid #c49a3e;border-radius:22px;padding:14px 18px 18px;margin-bottom:16px;display:flex;gap:14px;align-items:flex-end;position:relative;overflow:hidden}
+.head::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.12)}
+.head .ic{width:54px;height:54px;border-radius:16px;background:rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;flex:none}
+.head .ic svg{width:32px;height:32px}
+.head h1{font-size:24px;margin:0}
+.back{background:none;border:none;color:#7a756d;font:inherit;font-size:16px;font-weight:600;padding:4px 0 10px;cursor:pointer}
+.ex{background:#fff;border-radius:18px;border:1px solid #efe6d8;padding:16px;margin-bottom:10px;position:relative;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.ex h3{margin:0 0 4px;font-size:17px;font-weight:700;padding-right:40px}
+.ex p{margin:0;color:#7a756d;font-size:15px;line-height:1.45}
+.tag{display:inline-block;font-size:12px;font-weight:700;color:#b8893a;margin-bottom:4px}
+.heart{position:absolute;top:10px;right:10px;width:40px;height:40px;border:none;background:none;cursor:pointer;font-size:24px;line-height:1;color:#c9c3ba}
+.heart.on{color:#d08f8e}
+.row{display:flex;align-items:center;gap:14px;margin-top:12px}
+.go{border:none;font:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:var(--c);color:#fff;
+  text-decoration:none;padding:11px 18px;border-radius:999px;font-size:15px;font-weight:700}
+.ext{font-size:14px;color:#7a756d;text-decoration:none}
+.player{margin-top:12px;border-radius:14px;overflow:hidden;background:#000}
 .player iframe{display:block;width:100%;border:0}
 .player.wide iframe{aspect-ratio:16/9}
-.player.tall{max-width:360px;margin-left:auto;margin-right:auto}
+.player.tall{max-width:340px;margin-left:auto;margin-right:auto}
 .player.tall iframe{aspect-ratio:9/16}
-.player.ig iframe{height:640px}
+.player.ig iframe{height:620px;background:#fff}
+.empty{background:#fff;border-radius:18px;padding:18px;font-size:15px;line-height:1.5;color:#7a756d}
 .hidden{display:none}
 </style>
 </head>
@@ -78,15 +60,12 @@ h1{font-size:28px;font-weight:700;margin:8px 0 4px}
 <div class="wrap">
   <section id="home">
     <h1>Moje cviky</h1>
-    <p class="sub">Vyber partii a pusť si video ke cviku.</p>
+    <p class="sub">Vyber, co chceš dnes procvičit.</p>
     <div class="grid" id="grid"></div>
   </section>
   <section id="detail" class="hidden">
-    <div class="head" id="dHead">
-      <button class="back" id="back">‹ Zpět</button>
-      <h1 id="dTitle"></h1>
-      <p id="dSub"></p>
-    </div>
+    <button class="back" id="back">‹ Zpět</button>
+    <div class="head" id="dHead"><div class="ic" id="dIc"></div><div><h1 id="dTitle"></h1></div></div>
     <div id="dList"></div>
   </section>
 </div>
@@ -153,35 +132,42 @@ const SEKCE = [
 ];
 /* ===== konec dat ===== */
 
+/* barvy a ikony dlaždic */
+const ZAKLAD = "#2b3d5b";
+const ZLATA = "#c49a3e";
+/* [pozadí, barva textu] */
+const BARVY = {"oblibene":["#e9c4c3","#2b3d5b"],
+  "stred-tela":["#2b3d5b","#fff"],"chodidla":["#c49a3e","#fff"],"zpevneni":["#dcc7a8","#2b3d5b"],"sm-system":["#e9c4c3","#2b3d5b"],
+  "joga":["#c49a3e","#fff"],"protahovani":["#2b3d5b","#fff"],"dech":["#e9c4c3","#2b3d5b"],"krk":["#dcc7a8","#2b3d5b"],
+  "drzeni-tela":["#3e5478","#fff"],"energeticke":["#b8893a","#fff"],"guma":["#d8aaa9","#2b3d5b"]};
+const S = 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+const IKONY = {
+  "stred-tela":`<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>`,
+  "chodidla":`<svg viewBox="0 0 24 24" ${S}><path d="M10 22c-3 0-4-3-3.6-6.5C6.8 12 8.5 9.5 11 9.5s3.6 2.3 3.2 5.5c-.5 4-1.6 7-4.2 7z"/><circle cx="7.6" cy="5.2" r="1.4"/><circle cx="10.8" cy="3.8" r="1.4"/><circle cx="14" cy="4.6" r="1.2"/><circle cx="16.4" cy="6.6" r="1"/></svg>`,
+  "zpevneni":`<svg viewBox="0 0 24 24" ${S}><path d="M3 10v4M6 7v10M18 7v10M21 10v4M6 12h12"/></svg>`,
+  "sm-system":`<svg viewBox="0 0 24 24" ${S}><path d="M12 12a1.5 1.5 0 1 1 1.5-1.5A4 4 0 1 1 9.5 6.6 6.5 6.5 0 1 1 5.5 14"/></svg>`,
+  "joga":`<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="5.5" r="2"/><path d="M12 8.5v7M12 10 7.5 4M12 10l4.5-6M12 15.5V22M12 15.5l4.2 2.2-3.8 1.6"/></svg>`,
+  "protahovani":`<svg viewBox="0 0 24 24" ${S}><circle cx="16.5" cy="4.5" r="1.8"/><path d="M4 9l6 1.5 5-1.5M10 10.5 9 16l-4 5M9 16l5 1 2 4M15 9l3 3"/></svg>`,
+  "dech":`<svg viewBox="0 0 24 24" ${S}><path d="M3 9h11a3 3 0 1 0-3-3M3 13h15a3 3 0 1 1-3 3M3 17h7"/></svg>`,
+  "krk":`<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="7" r="4"/><path d="M10 11v3M14 11v3M5 21c0-4 3-7 7-7s7 3 7 7"/></svg>`,
+  "drzeni-tela":`<svg viewBox="0 0 24 24" ${S}><rect x="9.5" y="2.5" width="5" height="3.5" rx="1.2"/><rect x="9.5" y="7.5" width="5" height="3.5" rx="1.2"/><rect x="9.5" y="12.5" width="5" height="3.5" rx="1.2"/><rect x="9.5" y="17.5" width="5" height="3.5" rx="1.2"/></svg>`,
+  "energeticke":`<svg viewBox="0 0 24 24" ${S}><path d="M13 2 5 13.5h6L10 22l8-11.5h-6z"/></svg>`,
+  "guma":`<svg viewBox="0 0 24 24" ${S}><path d="M4 12c0-3 2-5 4-5s3 2 4 5 2 5 4 5 4-2 4-5-2-5-4-5-3 2-4 5-2 5-4 5-4-2-4-5z"/></svg>`,
+  "oblibene":`<svg viewBox="0 0 24 24" ${S}><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>`
+};
+
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pocet = n => n===1 ? "1 cvik" : (n>=2 && n<=4 ? n+" cviky" : n+" cviků");
-const zdroj = url => /facebook\.com|fb\.watch/.test(url) ? " (Facebook)" : /youtu/.test(url) ? " (YouTube)" : /instagram\.com/.test(url) ? " (Instagram)" : "";
+const zdroj = url => /facebook\.com|fb\.watch/.test(url) ? "Facebook" : /youtu/.test(url) ? "YouTube" : /instagram\.com/.test(url) ? "Instagram" : "web";
 
-/* oblíbené – ukládají se v tomto prohlížeči */
+const NA = {Facebook:"na Facebooku", YouTube:"na YouTube", Instagram:"na Instagramu", web:"na webu"};
 const KEY = "mojeCviky.oblibene";
 let fav = new Set();
 try { fav = new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); } catch(e) {}
 const saveFav = () => { try { localStorage.setItem(KEY, JSON.stringify([...fav])); } catch(e) {} };
 const klic = (s, c) => s.id + "|" + c.n;
-
-function oblibene(){
-  const out = [];
-  SEKCE.forEach(s => s.cviky.forEach(c => { if (fav.has(klic(s,c))) out.push({s, c}); }));
-  return out;
-}
-
-function home(){
-  const f = oblibene().length;
-  $("grid").innerHTML =
-    `<button class="tile fav k-red" data-id="oblibene"><span class="ico" aria-hidden="true">❤️</span>
-      <span><span class="name">Oblíbené</span><br><span class="count">${f ? pocet(f) : "zatím nic – přidej srdíčkem"}</span></span></button>` +
-    SEKCE.map(s =>
-    `<button class="tile k-${s.barva}" data-id="${s.id}"><span class="ico" aria-hidden="true">${s.ikona}</span>
-     <span><span class="name">${esc(s.nazev)}</span><br><span class="count">${s.cviky.length ? pocet(s.cviky.length) : "připravuje se"}</span></span></button>`
-  ).join("");
-  document.querySelectorAll(".tile").forEach(b => b.onclick = () => { location.hash = b.dataset.id; });
-}
+const oblibene = () => { const o=[]; SEKCE.forEach(s => s.cviky.forEach(c => { if (fav.has(klic(s,c))) o.push({s,c}); })); return o; };
 
 function embed(url){
   let m;
@@ -189,57 +175,62 @@ function embed(url){
   if ((m = url.match(/youtube\.com\/shorts\/([\w-]{6,})/))) return {src:"https://www.youtube-nocookie.com/embed/"+m[1]+"?autoplay=1&playsinline=1", cls:"tall"};
   if ((m = url.match(/youtu\.be\/([\w-]{6,})/)) || (m = url.match(/[?&]v=([\w-]{6,})/))) return {src:"https://www.youtube-nocookie.com/embed/"+m[1]+"?autoplay=1&playsinline=1", cls:"wide"};
   if ((m = url.match(/instagram\.com\/(reel|p)\/([\w-]+)/))) return {src:"https://www.instagram.com/"+m[1]+"/"+m[2]+"/embed", cls:"ig"};
-  if (/facebook\.com\//.test(url)) return {src:"https://www.facebook.com/plugins/video.php?show_text=false&href="+encodeURIComponent(url), cls:"tall"};
-  return null;
+  return null; /* Facebook a kanály se otevírají ve své aplikaci */
 }
+
+function home(){
+  const f = oblibene().length;
+  const tile = (id, nazev, count, extra) =>
+    `<button class="tile ${extra||""}" style="--c:${BARVY[id][0]};color:${BARVY[id][1]}" data-id="${id}"><span class="ic">${IKONY[id]||""}</span>
+     <span><span class="name">${esc(nazev)}</span><br><span class="count">${count}</span></span></button>`;
+  $("grid").innerHTML = tile("oblibene","Oblíbené", f ? pocet(f) : "přidej srdíčkem ♡","fav") +
+    SEKCE.map(s => tile(s.id, s.nazev, pocet(s.cviky.length))).join("");
+  document.querySelectorAll(".tile").forEach(b => b.onclick = () => { location.hash = b.dataset.id; });
+}
+
 function karta(s, c, ukazSekci){
-  const k = klic(s,c), on = fav.has(k);
-  const e = c.v ? embed(c.v) : null;
-  const odkaz = `<a class="${e ? "open" : "play"}" href="${esc(c.v)}" target="_blank" rel="noopener">${e ? "Otevřít" + zdroj(c.v) + " ↗" : (c.t ? "↗ " + esc(c.t) : "▶ Přehrát video") + zdroj(c.v)}</a>`;
-  return `<div class="ex k-${s.barva}">
-    ${ukazSekci ? `<span class="tag">${s.ikona} ${esc(s.nazev)}</span>` : ""}
+  const k = klic(s,c), on = fav.has(k), e = embed(c.v), obr = !!c.t && /instagram/.test(c.v);
+  const tlac = e
+    ? `<button class="go pbtn" data-src="${esc(e.src)}" data-cls="${e.cls}" data-l="${obr ? "Zobrazit" : "▶ Přehrát"}">${obr ? "Zobrazit" : "▶ Přehrát"}</button>
+       <a class="ext" href="${esc(c.v)}" target="_blank" rel="noopener">v aplikaci ${zdroj(c.v)} ↗</a>`
+    : `<a class="go" href="${esc(c.v)}" target="_blank" rel="noopener">${c.t ? esc(c.t) : "▶ Přehrát"} ${NA[zdroj(c.v)]} ↗</a>`;
+  return `<div class="ex" style="--c:${ZAKLAD}">
+    ${ukazSekci ? `<div class="tag">${esc(s.nazev)}</div>` : ""}
     <h3>${esc(c.n)}</h3><p>${esc(c.p)}</p>
     <button class="heart${on ? " on" : ""}" data-k="${esc(k)}" aria-label="${on ? "Odebrat z oblíbených" : "Přidat do oblíbených"}">${on ? "♥" : "♡"}</button>
-    <div class="btns">${c.v
-      ? (e ? `<button class="play pbtn" data-src="${esc(e.src)}" data-cls="${e.cls}" data-l="${c.t ? "▶ Zobrazit tady" : "▶ Přehrát tady"}">${c.t ? "▶ Zobrazit tady" : "▶ Přehrát tady"}</button>` : "") + odkaz
-      : `<span class="none">Video zatím chybí</span>`}
-    </div><div class="player hidden"></div></div>`;
+    <div class="row">${tlac}</div><div class="player hidden"></div></div>`;
 }
 
 function render(){
   const id = location.hash.replace("#","");
-  const s = SEKCE.find(x => x.id === id);
-  const jeFav = id === "oblibene";
+  const s = SEKCE.find(x => x.id === id), jeFav = id === "oblibene";
   const detail = !!s || jeFav;
   $("home").classList.toggle("hidden", detail);
   $("detail").classList.toggle("hidden", !detail);
   if (!detail){ home(); return; }
-  $("dHead").className = "head k-" + (jeFav ? "red" : s.barva);
+  const kid = jeFav ? "oblibene" : s.id;
+  $("dHead").style.setProperty("--c", ZAKLAD);
+  $("dIc").innerHTML = IKONY[kid] || "";
+  $("dTitle").textContent = jeFav ? "Oblíbené" : s.nazev;
   if (jeFav){
     const list = oblibene();
-    $("dTitle").textContent = "❤️ Oblíbené";
-    $("dSub").textContent = "Tvoje vybrané cviky ze všech sekcí.";
     $("dList").innerHTML = list.length ? list.map(x => karta(x.s, x.c, true)).join("")
-      : `<div class="empty k-red">Zatím tu nic není. U cviku klepni na srdíčko ♡ a objeví se tady.</div>`;
+      : `<div class="empty">Zatím tu nic není. U cviku klepni na srdíčko ♡ a objeví se tady.</div>`;
   } else {
-    $("dTitle").textContent = s.ikona + " " + s.nazev;
-    $("dSub").textContent = s.popis;
-    $("dList").innerHTML = s.cviky.length ? s.cviky.map(c => karta(s, c, false)).join("")
-      : `<div class="empty k-${s.barva}">Cviky SM systému doplníme podle tvých videí. Stačí poslat název cviku a odkaz.</div>`;
+    $("dList").innerHTML = s.cviky.map(c => karta(s, c, false)).join("");
   }
   document.querySelectorAll(".pbtn").forEach(b => b.onclick = () => {
     const box = b.closest(".ex").querySelector(".player");
-    if (!box.classList.contains("hidden")) { box.innerHTML = ""; box.className = "player hidden"; b.textContent = b.dataset.l; return; }
+    const open = !box.classList.contains("hidden");
     document.querySelectorAll(".player").forEach(p => { p.innerHTML = ""; p.className = "player hidden"; });
     document.querySelectorAll(".pbtn").forEach(x => x.textContent = x.dataset.l);
+    if (open) return;
     box.className = "player " + b.dataset.cls;
-    box.innerHTML = `<iframe src="${b.dataset.src}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>`;
+    box.innerHTML = `<iframe src="${b.dataset.src}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
     b.textContent = "■ Zavřít";
   });
   document.querySelectorAll(".heart").forEach(b => b.onclick = () => {
-    const k = b.dataset.k;
-    fav.has(k) ? fav.delete(k) : fav.add(k);
-    saveFav();
+    const k = b.dataset.k; fav.has(k) ? fav.delete(k) : fav.add(k); saveFav();
     const y = window.scrollY; render(); window.scrollTo(0, y);
   });
 }
