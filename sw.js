@@ -1,4 +1,4 @@
-const V = "moje-cviky-v8";
+const V = "moje-cviky-v9";
 const PRECACHE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png",
   "icon-512-maskable.png", "apple-touch-icon.png", "favicon-48.png"];
 
@@ -14,6 +14,7 @@ self.addEventListener("fetch", e => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;
+  if (url.pathname.startsWith("/api/")) return;
   const isPage = req.mode === "navigate" || /\.(html|webmanifest)$/.test(url.pathname) || url.pathname.endsWith("sw.js");
   if (isPage) {
     e.respondWith(fetch(req).then(res => {
