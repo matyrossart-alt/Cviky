@@ -221,6 +221,10 @@ const prehrano = url => { if (!url || znama.has(url)) return; znama.add(url); tr
 const KEY_NF = "mojeCviky.nefunkcni", KEY_YT = "mojeCviky.ytStav";
 let nefunkcni = new Set(), ytStav = {};
 try { nefunkcni = new Set(JSON.parse(localStorage.getItem(KEY_NF) || "[]")); } catch(e) {}
+/* jednorázově vrátit facebooková videa smazaná kvůli chybě přehrávače (14. 11. 2026) */
+try { if (!localStorage.getItem("mojeCviky.obnovaFB1")) {
+  [...nefunkcni].forEach(u => { if (/facebook\.com/.test(u)) nefunkcni.delete(u); });
+  localStorage.setItem(KEY_NF, JSON.stringify([...nefunkcni])); localStorage.setItem("mojeCviky.obnovaFB1", "1"); } } catch(e) {}
 try { ytStav = JSON.parse(localStorage.getItem(KEY_YT) || "{}"); } catch(e) {}
 const saveNF = () => { try { localStorage.setItem(KEY_NF, JSON.stringify([...nefunkcni])); } catch(e) {} };
 function ytId(url){
@@ -256,8 +260,7 @@ function embed(url){
   if ((m = url.match(/youtube\.com\/shorts\/([\w-]{6,})/))) return {src:"https://www.youtube.com/embed/"+m[1]+"?playsinline=1&rel=0", cls:"tall"};
   if ((m = url.match(/youtu\.be\/([\w-]{6,})/)) || (m = url.match(/[?&]v=([\w-]{6,})/))) return {src:"https://www.youtube.com/embed/"+m[1]+"?playsinline=1&rel=0", cls:"wide"};
   if ((m = url.match(/instagram\.com\/(reel|p)\/([\w-]+)/))) return {src:"https://www.instagram.com/"+m[1]+"/"+m[2]+"/embed", cls:"ig"};
-  if (/facebook\.com\//.test(url)) return {src:"https://www.facebook.com/plugins/video.php?show_text=false&width=340&href="+encodeURIComponent(url), cls:"tall"};
-  return null; /* kanály se otevírají na YouTube */
+  return null; /* Facebook a kanály se otevírají ve své aplikaci (Facebook přehrávání mimo svou aplikaci nedovolí) */
 }
 
 function vzor(id, barva, op){
