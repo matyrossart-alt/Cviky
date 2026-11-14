@@ -222,9 +222,8 @@ const KEY_NF = "mojeCviky.nefunkcni", KEY_YT = "mojeCviky.ytStav";
 let nefunkcni = new Set(), ytStav = {};
 try { nefunkcni = new Set(JSON.parse(localStorage.getItem(KEY_NF) || "[]")); } catch(e) {}
 /* jednorázově vrátit facebooková videa smazaná kvůli chybě přehrávače (14. 11. 2026) */
-try { if (!localStorage.getItem("mojeCviky.obnovaFB1")) {
-  [...nefunkcni].forEach(u => { if (/facebook\.com/.test(u)) nefunkcni.delete(u); });
-  localStorage.setItem(KEY_NF, JSON.stringify([...nefunkcni])); localStorage.setItem("mojeCviky.obnovaFB1", "1"); } } catch(e) {}
+try { if (!localStorage.getItem("mojeCviky.obnova2")) {
+  nefunkcni = new Set(); localStorage.setItem(KEY_NF, "[]"); localStorage.setItem("mojeCviky.obnova2", "1"); } } catch(e) {}
 try { ytStav = JSON.parse(localStorage.getItem(KEY_YT) || "{}"); } catch(e) {}
 const saveNF = () => { try { localStorage.setItem(KEY_NF, JSON.stringify([...nefunkcni])); } catch(e) {} };
 function ytId(url){
