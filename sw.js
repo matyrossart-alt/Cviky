@@ -1,4 +1,4 @@
-const V = "moje-cviky-v7";
+const V = "moje-cviky-v8";
 const PRECACHE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png",
   "icon-512-maskable.png", "apple-touch-icon.png", "favicon-48.png"];
 
