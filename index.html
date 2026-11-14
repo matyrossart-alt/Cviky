@@ -61,6 +61,8 @@ body{min-height:100vh}
 body.tinted{background-color:var(--bgt);background-image:var(--vzor);background-size:100px 100px;background-attachment:fixed}
 .head{background-image:var(--hvzor);background-size:84px 84px}
 #detail{position:relative;z-index:1}
+.nove{position:absolute;top:12px;right:12px;z-index:2;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.75);color:#2b3d5b}
+.novy{display:inline-block;vertical-align:middle;font-size:11px;font-weight:700;color:#b8893a;background:#f6ecd8;border-radius:999px;padding:2px 8px;margin-left:4px}
 .hidden{display:none}
 </style>
 </head>
@@ -190,6 +192,15 @@ let fav = new Set();
 try { fav = new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); } catch(e) {}
 const saveFav = () => { try { localStorage.setItem(KEY, JSON.stringify([...fav])); } catch(e) {} };
 const klic = (s, c) => s.id + "|" + c.n;
+/* nová videa: při prvním spuštění se všechna stávající berou jako známá */
+const KEY_ZN = "mojeCviky.znamaVidea";
+let znama = null;
+try { const z = localStorage.getItem(KEY_ZN); if (z) znama = new Set(JSON.parse(z)); } catch(e) {}
+const vsechna = () => SEKCE.flatMap(s => s.cviky.map(c => c.v)).filter(Boolean);
+if (!znama) { znama = new Set(vsechna()); try { localStorage.setItem(KEY_ZN, JSON.stringify([...znama])); } catch(e) {} }
+const jeNove = c => c.v && !znama.has(c.v);
+const prehrano = url => { if (!url || znama.has(url)) return; znama.add(url); try { localStorage.setItem(KEY_ZN, JSON.stringify([...znama])); } catch(e) {} };
+const novych = n => n===1 ? "1 nové video" : (n<=4 ? n+" nová videa" : n+" nových videí");
 const oblibene = () => { const o=[]; SEKCE.forEach(s => s.cviky.forEach(c => { if (fav.has(klic(s,c))) o.push({s,c}); })); return o; };
 
 function embed(url){
@@ -210,11 +221,11 @@ function vzor(id, barva, op){
 }
 function home(){
   const f = oblibene().length;
-  const tile = (id, nazev, count, extra) =>
-    `<button class="tile ${extra||""}" style="--c:${BARVY[id][0]};color:${BARVY[id][1]}" data-id="${id}"><span class="ic">${IKONY[id]||""}</span>
+  const tile = (id, nazev, count, extra, nove) =>
+    `<button class="tile ${extra||""}" style="--c:${BARVY[id][0]};color:${BARVY[id][1]}" data-id="${id}">${nove ? `<span class="nove">● ${novych(nove)}</span>` : ""}<span class="ic">${IKONY[id]||""}</span>
      <span><span class="name">${esc(nazev)}</span><br><span class="count">${count}</span></span></button>`;
   $("grid").innerHTML = tile("oblibene","Oblíbené", f ? pocet(f) : "přidej srdíčkem ♡","fav") +
-    SEKCE.map(s => tile(s.id, s.nazev, pocet(s.cviky.length))).join("");
+    SEKCE.map(s => tile(s.id, s.nazev, pocet(s.cviky.length), "", s.cviky.filter(jeNove).length)).join("");
   document.querySelectorAll(".tile").forEach(b => b.onclick = () => { location.hash = b.dataset.id; });
 }
 
@@ -224,9 +235,9 @@ function karta(s, c, ukazSekci){
     ? `<button class="go pbtn" data-src="${esc(e.src)}" data-cls="${e.cls}" data-l="${obr ? "Zobrazit" : "▶ Přehrát"}">${obr ? "Zobrazit" : "▶ Přehrát"}</button>
        <a class="ext" href="${esc(c.v)}" target="_blank" rel="noopener">v aplikaci ${zdroj(c.v)} ↗</a>`
     : `<a class="go" href="${esc(c.v)}" target="_blank" rel="noopener">${c.t ? esc(c.t) : "▶ Přehrát"} ${NA[zdroj(c.v)]} ↗</a>`;
-  return `<div class="ex">
+  return `<div class="ex" data-v="${esc(c.v)}">
     ${ukazSekci ? `<div class="tag">${esc(s.nazev)}</div>` : ""}
-    <h3>${esc(c.n)}</h3><p>${esc(c.p)}</p>
+    <h3>${esc(c.n)}${jeNove(c) ? ` <span class="novy">nové</span>` : ""}</h3><p>${esc(c.p)}</p>
     <button class="heart${on ? " on" : ""}" data-k="${esc(k)}" aria-label="${on ? "Odebrat z oblíbených" : "Přidat do oblíbených"}">${on ? "♥" : "♡"}</button>
     <div class="row">${tlac}</div><div class="player hidden"></div></div>`;
 }
@@ -267,6 +278,10 @@ function render(){
       <a class="fb" href="${link.href}" target="_blank" rel="noopener">Nejde přehrát? ${link.textContent.replace("v aplikaci","Otevřít v aplikaci")}</a>`;
     b.textContent = "■ Zavřít";
   });
+  document.querySelectorAll(".ex").forEach(ex => ex.addEventListener("click", ev => {
+    if (!ev.target.closest(".pbtn, a")) return;
+    prehrano(ex.dataset.v); const t = ex.querySelector(".novy"); if (t) t.remove();
+  }));
   document.querySelectorAll(".heart").forEach(b => b.onclick = () => {
     const k = b.dataset.k; fav.has(k) ? fav.delete(k) : fav.add(k); saveFav();
     const y = window.scrollY; render(); window.scrollTo(0, y);
