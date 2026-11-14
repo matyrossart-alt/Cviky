@@ -6,6 +6,7 @@
 <title>Moje cviky</title>
 <meta name="theme-color" content="#faf6f0">
 <meta name="color-scheme" content="light">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Moje cviky">
 <link rel="manifest" href="manifest.webmanifest">
@@ -47,8 +48,9 @@ h1{font-size:30px;font-weight:700;margin:6px 0 4px;letter-spacing:-.3px;color:#2
 .go{border:none;font:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:var(--c);color:var(--tx);
   text-decoration:none;padding:11px 18px;border-radius:999px;font-size:15px;font-weight:700}
 .ext{font-size:14px;color:#7a756d;text-decoration:none}
-.player{margin-top:12px;border-radius:14px;overflow:hidden;background:#000}
+.player{margin-top:12px;border-radius:14px;overflow:hidden;background:#000;border:1px solid #efe6d8}
 .player iframe{display:block;width:100%;border:0}
+.player .fb{display:block;background:#fff;color:#2b3d5b;text-decoration:none;font-size:14px;font-weight:600;padding:10px 12px;text-align:center;border-top:1px solid #efe6d8}
 .player.wide iframe{aspect-ratio:16/9}
 .player.tall{max-width:340px;margin-left:auto;margin-right:auto}
 .player.tall iframe{aspect-ratio:9/16}
@@ -187,11 +189,12 @@ const oblibene = () => { const o=[]; SEKCE.forEach(s => s.cviky.forEach(c => { i
 
 function embed(url){
   let m;
-  if ((m = url.match(/youtube\.com\/playlist\?list=([\w-]+)/))) return {src:"https://www.youtube-nocookie.com/embed/videoseries?list="+m[1], cls:"wide"};
-  if ((m = url.match(/youtube\.com\/shorts\/([\w-]{6,})/))) return {src:"https://www.youtube-nocookie.com/embed/"+m[1]+"?autoplay=1&playsinline=1", cls:"tall"};
-  if ((m = url.match(/youtu\.be\/([\w-]{6,})/)) || (m = url.match(/[?&]v=([\w-]{6,})/))) return {src:"https://www.youtube-nocookie.com/embed/"+m[1]+"?autoplay=1&playsinline=1", cls:"wide"};
+  if ((m = url.match(/youtube\.com\/playlist\?list=([\w-]+)/))) return {src:"https://www.youtube.com/embed/videoseries?list="+m[1], cls:"wide"};
+  if ((m = url.match(/youtube\.com\/shorts\/([\w-]{6,})/))) return {src:"https://www.youtube.com/embed/"+m[1]+"?playsinline=1&rel=0", cls:"tall"};
+  if ((m = url.match(/youtu\.be\/([\w-]{6,})/)) || (m = url.match(/[?&]v=([\w-]{6,})/))) return {src:"https://www.youtube.com/embed/"+m[1]+"?playsinline=1&rel=0", cls:"wide"};
   if ((m = url.match(/instagram\.com\/(reel|p)\/([\w-]+)/))) return {src:"https://www.instagram.com/"+m[1]+"/"+m[2]+"/embed", cls:"ig"};
-  return null; /* Facebook a kanály se otevírají ve své aplikaci */
+  if (/facebook\.com\//.test(url)) return {src:"https://www.facebook.com/plugins/video.php?show_text=false&width=340&href="+encodeURIComponent(url), cls:"tall"};
+  return null; /* kanály se otevírají na YouTube */
 }
 
 function vzor(id, barva, op){
@@ -254,7 +257,9 @@ function render(){
     document.querySelectorAll(".pbtn").forEach(x => x.textContent = x.dataset.l);
     if (open) return;
     box.className = "player " + b.dataset.cls;
-    box.innerHTML = `<iframe src="${b.dataset.src}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+    const link = b.closest(".ex").querySelector(".ext");
+    box.innerHTML = `<iframe src="${b.dataset.src}" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen; web-share" allowfullscreen></iframe>
+      <a class="fb" href="${link.href}" target="_blank" rel="noopener">Nejde přehrát? ${link.textContent.replace("v aplikaci","Otevřít v aplikaci")}</a>`;
     b.textContent = "■ Zavřít";
   });
   document.querySelectorAll(".heart").forEach(b => b.onclick = () => {
